@@ -6,6 +6,7 @@ import io.amplicode.petclinic.service.VisitService;
 import io.amplicode.petclinic.service.filter.VisitFilter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class VisitResource {
     private final VisitService visitService;
 
     @GetMapping
-    public Page<VisitDto> getList(@ModelAttribute VisitFilter filter, Pageable pageable) {
+    public Page<VisitDto> getList(@ParameterObject @ModelAttribute VisitFilter filter, @ParameterObject Pageable pageable) {
         return visitService.getList(filter, pageable);
     }
 

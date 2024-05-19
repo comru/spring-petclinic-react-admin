@@ -6,6 +6,7 @@ import io.amplicode.petclinic.service.VetService;
 import io.amplicode.petclinic.service.filter.VetFilter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class VetResource {
     private final VetService vetService;
 
     @GetMapping
-    public Page<VetDto> getList(@ModelAttribute VetFilter filter, Pageable pageable) {
+    public Page<VetDto> getList(@ParameterObject @ModelAttribute VetFilter filter, @ParameterObject Pageable pageable) {
         return vetService.getList(filter, pageable);
     }
 

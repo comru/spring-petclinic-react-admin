@@ -5,6 +5,7 @@ import io.amplicode.petclinic.dto.PetTypeDto;
 import io.amplicode.petclinic.service.PetTypeService;
 import io.amplicode.petclinic.service.filter.PetTypeFilter;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class PetTypeResource {
     private final PetTypeService petTypeService;
 
     @GetMapping
-    public Page<PetTypeDto> getList(@ModelAttribute PetTypeFilter filter, Pageable pageable) {
+    public Page<PetTypeDto> getList(@ParameterObject @ModelAttribute PetTypeFilter filter, @ParameterObject Pageable pageable) {
         return petTypeService.getList(filter, pageable);
     }
 
