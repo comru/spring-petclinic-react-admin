@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AmplicodeDatabaseMigrationSettings">
+    <database-infos>
+      <database-info>
+        <option name="enabled" value="true" />
+        <dbms-id>postgres</dbms-id>
+      </database-info>
+    </database-infos>
+  </component>
   <component name="AmplicodeJpaPluginProjectSettings">
     <option name="lastSelectedLanguage" value="Java" />
   </component>
-  <component name="AmplicodeSpringConfig" isAmplicodeImported="true" />
+  <component name="AmplicodePersistenceUnitSettings">
+    <persistence-units>
+      <persistence-unit moduleName="spring-petclinic-react-admin.main" name="Default" defaultIncludeChangeLogFile="src/main/resources/db/liquibase/main-changelog.xml">
+        <packages>
+          <package value="io.amplicode.petclinic" />
+        </packages>
+      </persistence-unit>
+    </persistence-units>
+  </component>
 </project>
