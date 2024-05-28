@@ -1,6 +1,7 @@
 package io.amplicode.petclinic.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.amplicode.petclinic.dto.OwnerWithPetsDto;
 import io.amplicode.petclinic.service.filter.OwnerFilter;
 import io.amplicode.petclinic.dto.OwnerDto;
 import io.amplicode.petclinic.service.OwnerService;
@@ -22,7 +23,7 @@ public class OwnerResource {
     private final OwnerService ownerService;
 
     @GetMapping
-    public Page<OwnerDto> getList(@ParameterObject @ModelAttribute OwnerFilter filter, @ParameterObject Pageable pageable) {
+    public Page<OwnerWithPetsDto> getList(@ParameterObject @ModelAttribute OwnerFilter filter, @ParameterObject Pageable pageable) {
         return ownerService.getList(filter, pageable);
     }
 

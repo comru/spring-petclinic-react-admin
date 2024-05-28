@@ -10,6 +10,9 @@ import {
   amplicodeLightTheme,
 } from "./themes/amplicodeTheme/amplicodeTheme";
 import { dataProvider } from "./dataProvider";
+import { OwnerList } from "./resources/owners/OwnerList";
+import { OwnerCreate } from "./resources/owners/OwnerCreate";
+import { OwnerShow } from "./resources/owners/OwnerShow";
 
 export const App = () => {
   return (
@@ -20,10 +23,11 @@ export const App = () => {
     >
       <Resource
         name="owners"
-        list={ListGuesser}
+        list={OwnerList}
+        create={OwnerCreate}
         edit={EditGuesser}
-        show={ShowGuesser}
-        recordRepresentation="firstName"
+        show={OwnerShow}
+        recordRepresentation={(record) => `${record.firstName} ${record.lastName}`}
       />
     </Admin>
   );

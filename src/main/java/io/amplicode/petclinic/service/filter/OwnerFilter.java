@@ -4,21 +4,21 @@ import io.amplicode.petclinic.domain.Owner;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
-public record OwnerFilter(String firstNameContains, String lastNameContains) {
+public record OwnerFilter(String q) {
     public Specification<Owner> toSpecification() {
         return Specification.where(firstNameContainsSpec())
                 .or(lastNameContainsSpec());
     }
 
     private Specification<Owner> firstNameContainsSpec() {
-        return ((root, query, cb) -> StringUtils.hasText(firstNameContains)
-                ? cb.like(cb.lower(root.get("firstName")), "%" + firstNameContains.toLowerCase() + "%")
+        return ((root, query, cb) -> StringUtils.hasText(q)
+                ? cb.like(cb.lower(root.get("firstName")), "%" + q.toLowerCase() + "%")
                 : null);
     }
 
     private Specification<Owner> lastNameContainsSpec() {
-        return ((root, query, cb) -> StringUtils.hasText(lastNameContains)
-                ? cb.like(cb.lower(root.get("lastName")), "%" + lastNameContains.toLowerCase() + "%")
+        return ((root, query, cb) -> StringUtils.hasText(q)
+                ? cb.like(cb.lower(root.get("lastName")), "%" + q.toLowerCase() + "%")
                 : null);
     }
 }

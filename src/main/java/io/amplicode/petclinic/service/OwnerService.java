@@ -2,17 +2,21 @@ package io.amplicode.petclinic.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.amplicode.petclinic.service.filter.OwnerFilter;
 import io.amplicode.petclinic.domain.Owner;
 import io.amplicode.petclinic.dto.OwnerDto;
+import io.amplicode.petclinic.dto.OwnerWithPetsDto;
 import io.amplicode.petclinic.dto.mapper.OwnerMapper;
 import io.amplicode.petclinic.repository.OwnerRepository;
+import io.amplicode.petclinic.service.filter.OwnerFilter;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
@@ -30,10 +34,19 @@ public class OwnerService {
 
     private final ObjectMapper objectMapper;
 
-    public Page<OwnerDto> getList(OwnerFilter filter, Pageable pageable) {
+    @PersistenceContext
+    private final EntityManager entityManager;
+
+    //TODO issue 1: Spring Data JPA + JpaSpecificationExecutor + EntityGraph: - https://stackoverflow.com/questions/26291143/spring-data-jpa-jpaspecificationexecutor-entitygraph
+    // issue 2: Spring Data JPA + JpaSpecificationExecutor + Projection
+    // issue 3: Spring Data JPA + JpaSpecificationExecutor + Slice
+    // issue 4: Spring Data JPA + Projection + effective Deep load
+    // issue 5: try use FetchableFluentQuery of org.springframework.data.jpa.repository.JpaSpecificationExecutor.findBy
+    @Transactional(readOnly = true)
+    public Page<OwnerWithPetsDto> getList(OwnerFilter filter, Pageable pageable) {
         Specification<Owner> spec = filter.toSpecification();
-        Page<Owner> owners = ownerRepository.findAll(spec, pageable);
-        return owners.map(ownerMapper::toDto);
+        return ownerRepository.findAll(spec, pageable)
+                .map(ownerMapper::toOwnerWithPets);
     }
 
     public OwnerDto getOne(Long id) {
